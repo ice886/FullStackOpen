@@ -22,6 +22,11 @@ let notes = [
     id: "3",
     content: "GET and POST are the most important methods of HTTP protocol",
     important: true
+  },
+  {
+    id: "4",
+    content: "PUT and DELETE are the most important methods of HTTP protocol",
+    important: true
   }
 ]
 
