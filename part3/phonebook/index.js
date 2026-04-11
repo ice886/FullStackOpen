@@ -15,7 +15,7 @@ morgan.token('post-data', (req) => {
 // 自定义格式，包含请求体数据
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-data'))
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
@@ -43,6 +43,10 @@ let person = [
     }
 ]
 
+
+app.get('/', (request, response) => {
+    response.send('<h1>Phonebook API</h1><p>Available endpoints:</p><ul><li>GET /api/persons - Get all persons</li><li>GET /api/persons/:id - Get person by ID</li><li>POST /api/persons - Create new person</li><li>DELETE /api/persons/:id - Delete person</li><li>GET /info - Get info</li></ul>')
+})
 
 app.get('/api/persons', (request, response) => {
     response.json(person)
