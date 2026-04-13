@@ -3,6 +3,33 @@
 # ============================================
 
 # ============================================
+# 1、创建用户
+post http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+###
+# 2、用户列表
+get http://localhost:3001/api/users
+
+
+###
+# 3、创建新笔记
+post http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "测试user添加笔记",
+  "important": true,
+  "userId": "69dcda734e1e4f69b3171de5"
+}
+
+
 # 1. 获取所有 Notes
 # ============================================
 
