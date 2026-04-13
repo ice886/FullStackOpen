@@ -7,12 +7,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch index.js",
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test node --test",
     "build:ui": "cd ../frontend && npm run build && rm -rf ../backend/dist && cp -r dist ../backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'update ui build' && git push",
-    "lint": "eslint .",
-    "test": "node --test"
+    "lint": "eslint ."
   },
   "dependencies": {
     "cores": "^0.8.5",
@@ -23,7 +23,7 @@
     "morgan": "^1.10.1"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.0.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
