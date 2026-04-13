@@ -9,7 +9,9 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-logger.info('connecting to', config.MONGODB_URI)
+logger.info('MONGODB_URI:', config.MONGODB_URI)
+logger.info('PORT:', config.PORT)
+logger.info('All env vars:', Object.keys(process.env).filter(key => key.includes('MONGO') || key.includes('PORT')))
 
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
