@@ -29,6 +29,16 @@ Content-Type: application/json
   "userId": "69dcda734e1e4f69b3171de5"
 }
 
+###
+# 4、登录
+post http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "salainen"
+}
+
 
 # 1. 获取所有 Notes
 # ============================================
