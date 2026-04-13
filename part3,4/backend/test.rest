@@ -1,0 +1,252 @@
+# ============================================
+# Notes API 测试套件
+# ============================================
+
+# ============================================
+# 1. 获取所有 Notes
+# ============================================
+
+### GET 请求 - 获取所有 Notes
+GET http://localhost:3001/api/notes
+
+###
+
+# ============================================
+# 2. 创建新 Note
+# ============================================
+
+### POST 请求 - 创建普通 Note
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "学习 MongoDB 数据库",
+  "important": true
+}
+
+###
+
+### POST 请求 - 创建普通 Note（不重要）
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "学习 Express.js 中间件",
+  "important": false
+}
+
+###
+
+### POST 请求 - 测试缺少 content 字段（应该返回 400 错误）
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "important": true
+}
+
+###
+
+# ============================================
+# 3. 获取单个 Note
+# ============================================
+
+### GET 请求 - 获取特定 ID 的 Note
+GET http://localhost:3001/api/notes/69da10c8d5e78582c4db6630
+
+###
+
+### GET 请求 - 测试不存在的 Note ID（应该返回 404 错误）
+GET http://localhost:3001/api/notes/:::
+
+###
+
+# ============================================
+# 4. 更新 Note
+# ============================================
+
+### PUT 请求 - 更新 Note 的重要性
+PUT http://localhost:3001/api/notes/69da10c8d5e78582c4db6630
+Content-Type: application/json
+
+{
+  "important": true
+}
+
+###
+
+### PUT 请求 - 更新 Note 内容
+PUT http://localhost:3001/api/notes/69da10c8d5e78582c4db6630
+Content-Type: application/json
+
+{
+  "content": "更新后的内容",
+  "important": true
+}
+
+###
+
+# ============================================
+# 5. 删除 Note
+# ============================================
+
+### DELETE 请求 - 删除特定 ID 的 Note
+DELETE http://localhost:3001/api/notes/69da10c8d5e78582c4db6630
+
+###
+
+### DELETE 请求 - 测试删除不存在的 Note（应该返回 204）
+DELETE http://localhost:3001/api/notes/99999999999999999999999
+
+###
+
+# ============================================
+# 6. 测试根路径
+# ============================================
+
+### GET 请求 - 测试根路径
+GET http://localhost:3001/
+
+###
+
+# ============================================
+# 7. 测试错误路由
+# ============================================
+
+### GET 请求 - 测试不存在的路由（应该返回 404）
+GET http://localhost:3001/api/unknown
+
+###
+
+### POST 请求 - 测试不存在的路由（应该返回 404）
+POST http://localhost:3001/api/invalid
+Content-Type: application/json
+
+{
+  "test": "data"
+}
+
+###
+
+# ============================================
+# 8. 测试错误的 ID 格式
+# ============================================
+
+### GET 请求 - 测试无效的 MongoDB ID 格式（应该返回 400 错误）
+GET http://localhost:3001/api/notes/invalid-id-format
+
+###
+
+### DELETE 请求 - 测试无效的 MongoDB ID 格式（应该返回 400 错误）
+DELETE http://localhost:3001/api/notes/invalid-id-format
+
+###
+
+### PUT 请求 - 测试无效的 MongoDB ID 格式（应该返回 400 错误）
+PUT http://localhost:3001/api/notes/invalid-id-format
+Content-Type: application/json
+
+{
+  "important": true
+}
+
+###
+
+# ============================================
+# 9. 测试数据验证
+# ============================================
+
+### POST 请求 - 测试空 content（应该返回 400 错误）
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "",
+  "important": true
+}
+
+###
+
+### POST 请求 - 测试只有 content 字段
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "只有 content 字段"
+}
+
+###
+
+### POST 请求 - 测试只有 important 字段（应该返回 400 错误）
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "important": false
+}
+
+###
+
+# ============================================
+# 10. 完整的工作流程测试
+# ============================================
+
+### 步骤1：创建 Note
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "完整流程测试 Note",
+  "important": false
+}
+
+###
+
+### 步骤2：获取所有 Notes（验证创建成功）
+GET http://localhost:3001/api/notes
+
+###
+
+### 步骤3：更新 Note 的状态
+PUT http://localhost:3001/api/notes/6789abcdef0123456789abcd
+Content-Type: application/json
+
+{
+  "important": true
+}
+
+###
+
+### 步骤4：验证更新结果
+GET http://localhost:3001/api/notes/6789abcdef0123456789abcd
+
+###
+
+### 步骤5：删除 Note
+DELETE http://localhost:3001/api/notes/6789abcdef0123456789abcd
+
+###
+
+### 步骤6：验证删除结果
+GET http://localhost:3001/api/notes
+
+###
+
+# ============================================
+# 使用说明
+# ============================================
+# 
+# 在 VS Code 中使用 REST Client 扩展测试这些请求
+# 
+# 测试步骤：
+# 1. 确保服务器正在运行：node --watch index.js
+# 2. 确保数据库已连接
+# 3. 点击每个请求块上方的 "Send Request" 按钮
+# 4. 查看响应结果
+# 
+# 注意事项：
+# - 将示例中的 ID 替换为实际的 MongoDB ObjectID
+# - 每个请求块之间用 ### 分隔
+# - 某些 ID 可能需要根据实际创建的数据进行调整
+#
+# ============================================
