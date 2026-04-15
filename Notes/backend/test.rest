@@ -128,8 +128,7 @@ Content-Type: application/json
 # ============================================
 
 ### DELETE 请求 - 删除特定 ID 的 Note
-DELETE http://localhost:3001/api/notes/69da10c8d5e78582c4db6630
-
+DELETE http://localhost:3001/api/notes/69df39a45bfb27a8c76bb8f2
 ###
 
 ### DELETE 请求 - 测试删除不存在的 Note（应该返回 204）
