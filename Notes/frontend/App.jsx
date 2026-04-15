@@ -14,7 +14,15 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [loginVisbail, setLoginVisible] = useState(false)
+
+useEffect(() => {
+  const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+  if (loggedUserJSON) {
+    const user = JSON.parse(loggedUserJSON)
+    setUser(user)  // ESLint 警告这里
+    noteService.setToken(user.token)
+  }
+}, [])
 
   useEffect(() => {
     noteService
@@ -24,20 +32,6 @@ const App = () => {
       })
   }, [])
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      noteService.setToken(user.token)
-    }
-  }, [])
-
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
-  }
-
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
@@ -45,7 +39,7 @@ const App = () => {
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
-    
+
     noteService
       .update(id, changedNote)
       .then(inresponse => {
@@ -66,7 +60,7 @@ const App = () => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
 
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
@@ -126,7 +120,7 @@ const App = () => {
       </div>
       <ul>
         <ul>
-          {notesToShow.map(note => 
+          {notesToShow.map(note =>
             <Note
               key={note.id}
               note={note}
